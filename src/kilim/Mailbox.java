@@ -23,11 +23,11 @@ import java.util.TimerTask;
 
 public class Mailbox<T> implements PauseReason, EventPublisher {
     // TODO. Give mbox a config name and id and make monitorable
-    T[] msgs;
-    private int iprod = 0; // producer index
-    private int icons = 0; // consumer index;
-    private int numMsgs = 0;
-    private int maxMsgs = 300;
+	protected T[] msgs;
+    protected int iprod = 0; // producer index
+    protected int icons = 0; // consumer index;
+    protected int numMsgs = 0;
+    protected int maxMsgs = 300;
     EventSubscriber sink;
     
     // FIX: I don't like this event design. The only good thing is that
