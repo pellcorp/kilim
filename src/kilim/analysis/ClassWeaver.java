@@ -29,7 +29,16 @@ import org.objectweb.asm.tree.InnerClassNode;
 public class ClassWeaver {
     ClassFlow       classFlow;
     List<ClassInfo> classInfoList = new LinkedList<ClassInfo>();
-    static HashSet<String> stateClasses = new HashSet<String>();
+    
+    static ThreadLocal<HashSet<String>> stateClasses = new ThreadLocal<HashSet<String>>() {
+    	protected java.util.HashSet<String> initialValue() {
+    		return new HashSet<String>();
+    	}
+    };
+    
+    public static void reset() {
+    	stateClasses.set(new HashSet<String>());
+    }
 
     public ClassWeaver(byte[] data, Detector detector) {
         classFlow = new ClassFlow(data, detector);
@@ -183,10 +192,10 @@ public class ClassWeaver {
             numByType[vi.vmt]++;
         }
         String className = makeClassName(numByType);
-        if (stateClasses.contains(className)) {
+        if (stateClasses.get().contains(className)) {
             return className;
         }
-        stateClasses.add(className);
+        stateClasses.get().add(className);
         ClassWriter cw = new ClassWriter(false);
         cw.visit(V1_1, ACC_PUBLIC | ACC_FINAL, className, null, "kilim/State", null);
 
