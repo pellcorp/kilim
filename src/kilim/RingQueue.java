@@ -84,6 +84,20 @@ public class RingQueue<T> {
         }
         return false;
     }
+    
+    public T peek() {
+        T elem;
+        T[] elems;
+        int n = size;
+        if (n > 0) {
+            elems = elements;
+            int ic = icons;
+            elem = elems[ic];
+        } else {
+            elem = null;
+        }
+        return elem;
+    }
 
     public void reset() {
         icons = iprod = 0;
