@@ -40,6 +40,10 @@ public class ClassWeaver {
     	stateClasses.set(new HashSet<String>());
     }
 
+    public ClassWeaver(byte[] data) {
+        this(data, Detector.DEFAULT);
+    }
+    
     public ClassWeaver(byte[] data, Detector detector) {
         classFlow = new ClassFlow(data, detector);
         weave();
