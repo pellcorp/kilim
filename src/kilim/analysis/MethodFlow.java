@@ -31,6 +31,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.AnnotationNode;
+import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LineNumberNode;
 import org.objectweb.asm.tree.LocalVariableNode;
 import org.objectweb.asm.tree.MethodInsnNode;
@@ -174,6 +175,15 @@ public class MethodFlow extends MethodNode {
         return className.replace('/', '.') + '.' + methName + desc;
     }
     
+    /* (non-Javadoc)
+     * @see org.objectweb.asm.tree.MethodNode#visitLineNumber(int, org.objectweb.asm.Label)
+     */
+    @Override
+    public void visitLineNumber(int line, Label start) {
+    	// TODO Auto-generated method stub
+    	super.visitLineNumber(line, start);
+    }
+    
     @Override
     public void visitLabel(Label label) {
 //        if (hasPausableAnnotation)
@@ -276,7 +286,7 @@ public class MethodFlow extends MethodNode {
                     getLabelPosition(tcb.start),
                     getLabelPosition(tcb.end) - 1, // end is inclusive
                     tcb.type, 
-                    getOrCreateBasicBlock(tcb.handler)));
+                    getOrCreateBasicBlock(tcb.handler.getLabel())));
         }
         for (BasicBlock bb : basicBlocks) {
             bb.chooseCatchHandlers(handlers);
@@ -394,6 +404,15 @@ public class MethodFlow extends MethodNode {
             setLabel(pos, ret);
         }
         return ret;
+    }
+    
+    @Override
+    public LabelNode getLabelNode(Label arg0) {
+    	return super.getLabelNode(arg0);
+    }
+    
+    int getLabelPosition(LabelNode l) {
+        return labelToPosMap.get(l.getLabel());
     }
     
     int getLabelPosition(Label l) {
@@ -518,10 +537,12 @@ public class MethodFlow extends MethodNode {
                 ((LocalVariableNode) localVariables.get(i)).accept(mv);
             }
             // visits line numbers
+            /*
             n = lineNumbers == null ? 0 : lineNumbers.size();
             for (i = 0; i < n; ++i) {
                 ((LineNumberNode) lineNumbers.get(i)).accept(mv);
             }
+            */
             // visits maxs
             mv.visitMaxs(maxStack, maxLocals);
         }

@@ -155,7 +155,7 @@ public class MethodWeaver {
         mv.visitCode();
         visitTryCatchBlocks(mv);
         visitInstructions(mv);
-        visitLineNumbers(mv);
+        //visitLineNumbers(mv);
         visitLocals(mv);
         mv.visitMaxs(maxStack, maxVars);
     }
@@ -167,11 +167,13 @@ public class MethodWeaver {
         }
     }
 
+    /*
     private void visitLineNumbers(MethodVisitor mv) {
         for (Object l: methodFlow.lineNumbers) {
             ((LineNumberNode)l).accept(mv);
         }
     }
+    */
 
     private void visitInstructions(MethodVisitor mv) {
         //TODO gen code for pausable JSRs 

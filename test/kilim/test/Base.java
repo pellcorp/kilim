@@ -8,14 +8,15 @@ package kilim.test;
 
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
+import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.InsnList;
+import org.objectweb.asm.tree.MethodInsnNode;
+
 import kilim.analysis.BasicBlock;
 import kilim.analysis.ClassFlow;
 import kilim.analysis.Detector;
 import kilim.analysis.MethodFlow;
-
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.MethodInsnNode;
+import junit.framework.TestCase;
 
 public class Base extends TestCase {
     private static ArrayList<MethodFlow> stflows;
