@@ -38,7 +38,7 @@ import org.objectweb.asm.Opcodes;
  * meant to be parseable by Asm.
  * @author sriram
  */
-public class DumpClass implements Opcodes, ClassVisitor {
+public class DumpClass extends ClassVisitor implements Opcodes {
     
     static boolean lineNumbers = true;
     
@@ -67,11 +67,13 @@ public class DumpClass implements Opcodes, ClassVisitor {
     
 
     public DumpClass(InputStream is, int flags) throws IOException {
+	super(Opcodes.ASM4);
         ClassReader cr = new ClassReader(is);
         cr.accept(this, flags);
     }
 
     public DumpClass(String className, int flags) throws IOException {
+	super(Opcodes.ASM4);
         ClassReader cr;
         if (className.endsWith(".class")) {
             FileInputStream fis = new FileInputStream(className);
@@ -158,7 +160,12 @@ public class DumpClass implements Opcodes, ClassVisitor {
     public void visitSource(String source, String debug) {}
 }
 
-class DummyAnnotationVisitor implements AnnotationVisitor {
+class DummyAnnotationVisitor extends AnnotationVisitor {
+
+    public DummyAnnotationVisitor() {
+	super(Opcodes.ASM4);
+    }
+
     public void visit(String name, Object value) {
 //        System.out.println("visit: name = " + name + ", value = "  + value);
     }
@@ -181,9 +188,10 @@ class DummyAnnotationVisitor implements AnnotationVisitor {
     }
 }
 
-class DumpMethodVisitor implements Opcodes, MethodVisitor {
+class DumpMethodVisitor extends MethodVisitor implements Opcodes {
 
     public DumpMethodVisitor() {
+	super(Opcodes.ASM4);
     }
 
     static String[] os = {
