@@ -1,4 +1,4 @@
-export CLASSPATH=./classes:./testclasses:./libs/asm-all-2.2.3.jar:./libs/junit.jar:$CLASSPATH 
+export CLASSPATH=./classes:./testclasses:./libs/asm-all-3.3.1.jar:./libs/junit.jar:$CLASSPATH
 
 echo making dir:  ./classes
 rm -rf ./classes
@@ -16,7 +16,7 @@ echo Weaving =========================================================
 # Weave all files under ./classes, compiling the tests to
 # ./testclasses while excluding any that match "ExInvalid". These are
 # negative tests for the Weaver.
-java -ea kilim.tools.Weaver -d ./classes -x "ExInvalid|test" ./classes
-java -ea kilim.tools.Weaver -d ./testclasses -x "ExInvalid" ./classes
+java -ea kilim.tools.Weaver -v -t -d ./classes -x "ExInvalid|test" ./classes
+java -ea kilim.tools.Weaver -v -t -d ./testclasses -x "ExInvalid" ./classes
 
 
