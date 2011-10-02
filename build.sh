@@ -1,4 +1,4 @@
-export CLASSPATH=./classes:./testclasses:./libs/asm-all-3.3.1.jar:./libs/junit.jar:$CLASSPATH
+export CLASSPATH=./classes:./testclasses:./libs/asm-debug-all-4.0_RC2.jar:./libs/junit.jar:$CLASSPATH
 
 echo making dir:  ./classes
 rm -rf ./classes
