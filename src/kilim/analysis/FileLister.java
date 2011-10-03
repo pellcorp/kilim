@@ -10,56 +10,98 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Stack;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-/**
- * Utility class to paper over the differences between jar files and
- * directories 
 
+/**
+ * Utility class to present a uniform iterator interface for file containers; presently 
+ * includes directories and jar files.
  */
+
 public class FileLister implements Iterable<FileLister.Entry> {
    public static abstract class Entry {
         public abstract String getFileName();
+        public abstract long getSize();
         public abstract InputStream getInputStream() throws IOException;
     };
     
-    Iterator<FileLister.Entry> iter;
+    /**
+     * weak ref to a container to avoid hanging on to an open jar file. 
+     */
+    volatile WeakReference<FileContainer> containerRef;
+    String name;
     
     public FileLister(String dirOrJarName) throws IOException {
-        if (dirOrJarName.endsWith(".jar")) {
-            iter = openJar(dirOrJarName);
+        name= dirOrJarName;
+    }
+    
+    /**
+     * @param relativeFileName
+     * @return if the relativeFileName exists in the directory or jar represented by FileLister object
+     * open it. If not return null.
+     * @throws IOException
+     */
+    public Entry open(String relativeFileName) throws IOException {
+        return getContainer().open(relativeFileName);
+    }
+    
+    // Lazily initialize the container.
+    private FileContainer getContainer() throws IOException {
+        FileContainer container = null;
+        if (containerRef != null) {
+           container = containerRef.get();
+           if (container != null) return container;
+        }
+        
+        if (name.endsWith(".jar")) {
+            container = openJar(this.name);
         } else {
-            File f = new File(dirOrJarName);
+            File f = new File(this.name);
             if (f.exists() && f.isDirectory()) {
-                iter = new DirIterator(f);
+                container = new DirIterator(f);
             } else {
                 throw new IOException("Expected jar file or directory name");
             }
         }
+        containerRef = new WeakReference<FileContainer>(container);
+        return container;
     }
 
-    private Iterator<FileLister.Entry> openJar(String jarFile) throws IOException {
+    private FileContainer openJar(String jarFile) throws IOException {
         return new JarIterator(new JarFile(jarFile));
     }
 
     public Iterator<FileLister.Entry> iterator() {
-        return iter;
+        try {
+            return getContainer();
+        } catch (IOException ignore) {}
+        return null;
     }
+}
+
+abstract class FileContainer implements Iterator<FileLister.Entry> {
+    abstract FileLister.Entry open(String relativeFileName) throws IOException;
 }
 
 /**
  * Preorder traversal of a directory. Returns everything including directory
  * names.
  */
-class DirIterator implements Iterator<FileLister.Entry> {
+class DirIterator extends FileContainer {
+    final File root;
     private static class DirEntry extends FileLister.Entry {
         final File file;
         DirEntry(File f) {file = f;}
         
+        @Override
+        public long getSize() {
+            return file.length();
+        }
         @Override
         public String getFileName() {
             try {
@@ -76,7 +118,9 @@ class DirIterator implements Iterator<FileLister.Entry> {
     
     Stack<File> stack = new Stack<File>();
     
+    
     DirIterator(File f) {
+        root = f;
         stack.push(f);
     }
 
@@ -110,9 +154,18 @@ class DirIterator implements Iterator<FileLister.Entry> {
     public void remove() {
         throw new RuntimeException("FileLister does not remove files");
     }
+
+    @Override
+    FileLister.Entry open(String fileName) throws IOException {
+        File ret = new File(root.getAbsolutePath() + File.separatorChar + fileName);
+        if (ret.exists() && ret.isFile()) {
+            return new DirEntry(ret);
+        }
+        return null;
+    }
 }
 
-class JarIterator implements Iterator<FileLister.Entry> {
+class JarIterator extends FileContainer {
     Enumeration<JarEntry> jarEnum;
     JarFile   jarFile;
     String    nextName;
@@ -129,6 +182,11 @@ class JarIterator implements Iterator<FileLister.Entry> {
         @Override
         public InputStream getInputStream() throws IOException {
             return jarFile.getInputStream(jarEntry);
+        }
+        
+        @Override
+        public long getSize() {
+            return jarEntry.getSize();
         }
     }
     
@@ -147,5 +205,11 @@ class JarIterator implements Iterator<FileLister.Entry> {
 
     public void remove() {
         throw new RuntimeException("FileLister does not remove files");
+    }
+
+    @Override
+    FileLister.Entry open(String relativeFileName) throws IOException {
+        JarEntry e = jarFile.getJarEntry(relativeFileName);
+        return e == null ? null : new JEntry(e);
     }
 }

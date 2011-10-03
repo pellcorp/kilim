@@ -5,13 +5,25 @@
  */
 
 package kilim.analysis;
-import kilim.*;
-import static kilim.Constants.*;
+import static kilim.Constants.ALOAD_0;
+import static kilim.Constants.D_FIBER;
+import static kilim.Constants.STATE_CLASS;
+import static kilim.Constants.WOVEN_FIELD;
+import static org.objectweb.asm.Opcodes.ACC_FINAL;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.ACC_STATIC;
+import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
+import static org.objectweb.asm.Opcodes.RETURN;
+import static org.objectweb.asm.Opcodes.V1_1;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+
+import kilim.KilimException;
+import kilim.mirrors.Detector;
 
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassVisitor;
@@ -27,7 +39,7 @@ import org.objectweb.asm.tree.InnerClassNode;
  * CPS transformed file if needed
  */
 public class ClassWeaver {
-    ClassFlow       classFlow;
+    public ClassFlow       classFlow;
     List<ClassInfo> classInfoList = new LinkedList<ClassInfo>();
     
     static ThreadLocal<HashSet<String>> stateClasses = new ThreadLocal<HashSet<String>>() {
@@ -46,20 +58,17 @@ public class ClassWeaver {
     
     public ClassWeaver(byte[] data, Detector detector) {
         classFlow = new ClassFlow(data, detector);
-        weave();
     }
     
     public ClassWeaver(InputStream is, Detector detector) throws IOException {
         classFlow = new ClassFlow(is, detector);
-        weave();
     }
     
     public ClassWeaver(String className, Detector detector) throws IOException {
         classFlow = new ClassFlow(className, detector);
-        weave();
     }
     
-    private void weave() throws KilimException {
+    public void weave() throws KilimException {
         classFlow.analyze(false);
         if (needsWeaving() && classFlow.isPausable()) {
             ClassWriter cw = new ClassWriter(0);
@@ -67,6 +76,7 @@ public class ClassWeaver {
             addClassInfo(new ClassInfo(classFlow.getClassName(), cw.toByteArray()));
         }
     }
+    
 
     private void accept(final ClassVisitor cv) {
         ClassFlow cf = classFlow;

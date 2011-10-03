@@ -6,6 +6,7 @@
 package kilim.analysis;
 
 import kilim.*;
+import kilim.mirrors.Detector;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,8 +78,7 @@ public class ClassFlow extends ClassNode {
 
         Detector save = Detector.setDetector(detector);
         try {
-
-            cr.accept(this, 0);
+            cr.accept(this, false);
             for (Object o : this.fields) {
                 FieldNode fn = (FieldNode) o;
                 if (fn.name.equals(Constants.WOVEN_FIELD)) {

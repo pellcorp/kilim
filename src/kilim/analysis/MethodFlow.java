@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 import kilim.KilimException;
+import kilim.mirrors.Detector;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;
@@ -210,9 +211,7 @@ public class MethodFlow extends MethodNode {
         // functionality.
         if (!classFlow.isWoven) {
             int methodStatus = detector.getPausableStatus(owner, name, desc);
-            if (methodStatus == Detector.METHOD_NOT_FOUND) {
-                throw new KilimException("Check classpath. Method " + owner + "." + name + desc + " could not be located");
-            } else if (methodStatus == Detector.PAUSABLE_METHOD_FOUND) {
+            if (methodStatus == Detector.PAUSABLE_METHOD_FOUND) {
                 MethodInsnNode min = (MethodInsnNode)instructions.get(instructions.size()-1);
                 pausableMethods.add(min);
             }

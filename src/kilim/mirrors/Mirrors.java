@@ -1,22 +1,14 @@
 package kilim.mirrors;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-
-
+/** 
+ * Mirrors provides a uniform facade for class and method related information 
+ * (via ClassMirror and MethodMirror). This information is obtained either through 
+ * loaded Class objects or parsed bytecode.
+ */
 public abstract class Mirrors {
-
 	abstract public ClassMirror classForName(String className)
 		throws ClassMirrorNotFoundException;
 
 	public abstract ClassMirror  mirror(Class<?> clazz);
-	public abstract MethodMirror mirror(Method mth) ;
-	public abstract MemberMirror mirror(Member member) ;
-	public abstract FieldMirror  mirror(Field member) ;
-
-	public static Mirrors getRuntimeMirrors() {
-		return new RuntimeClassMirrors();
-	}
-
+    public abstract ClassMirror  mirror(String className, byte[] bytecode);
 }
