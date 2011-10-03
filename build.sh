@@ -16,7 +16,6 @@ echo Weaving =========================================================
 # Weave all files under ./classes, compiling the tests to
 # ./testclasses while excluding any that match "ExInvalid". These are
 # negative tests for the Weaver.
-java -ea kilim.tools.Weaver -v -t -d ./classes -x "ExInvalid|test" ./classes
-java -ea kilim.tools.Weaver -v -t -d ./testclasses -x "ExInvalid" ./classes
-
-
+#java -ea kilim.tools.Weaver -v -t -d ./classes -x "ExInvalid|test" ./classes
+#java -ea kilim.tools.Weaver -v -t -d ./testclasses -x "ExInvalid" ./classes
+java -ea kilim.tools.Weaver -v -t -d ./out -x "ExInvalid" /Users/gburd/Projects/kilim/classes/kilim/test/ex/ExJSR.class
