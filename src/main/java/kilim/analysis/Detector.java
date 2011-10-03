@@ -1,9 +1,9 @@
 /* Copyright (c) 2006, Sriram Srinivasan
  *
- * You may distribute this software under the terms of the license 
+ * You may distribute this software under the terms of the license
  * specified in the file "License"
  */
-package kilim.mirrors;
+package kilim.analysis;
 
 import static kilim.Constants.D_OBJECT;
 
@@ -16,13 +16,13 @@ import kilim.analysis.AsmDetector;
 
 /**
  * Utility class to check if a method has been marked pausable
- * 
+ *
  */
 public class Detector {
     public static final int METHOD_NOT_FOUND_OR_PAUSABLE = 0; // either not found, or not pausable if found.
     public static final int PAUSABLE_METHOD_FOUND = 1; // known to be pausable
     public static final int METHOD_NOT_PAUSABLE = 2; // known to be not pausable
-    
+
 
     // Note that we don't have the kilim package itself in the following list.
     static final String[] STANDARD_DONT_CHECK_LIST = { "java.", "javax." };
@@ -51,21 +51,21 @@ public class Detector {
      */
 
     static boolean isNonPausableClass(String className) {
-        return className == null || className.charAt(0) == '[' || 
+        return className == null || className.charAt(0) == '[' ||
            className.startsWith("java.") || className.startsWith("javax.");
     }
-    
+
     static boolean isNonPausableMethod(String methodName) {
         return methodName.endsWith("init>");
     }
 
-    
+
     public int getPausableStatus(String className, String methodName, String desc) {
         int ret = METHOD_NOT_FOUND_OR_PAUSABLE;
         // array methods (essentially methods deferred to Object (clone, wait etc)
         // and constructor methods are not pausable
         if (isNonPausableClass(className) || isNonPausableMethod(methodName)) {
-            return METHOD_NOT_FOUND_OR_PAUSABLE; 
+            return METHOD_NOT_FOUND_OR_PAUSABLE;
         }
         className = className.replace('/', '.');
         try {
@@ -110,13 +110,13 @@ public class Detector {
 
     private MethodMirror findPausableMethod(String className, String methodName, String desc)
             throws ClassMirrorNotFoundException {
-        
-        if (isNonPausableClass(className) || isNonPausableMethod(methodName)) 
+
+        if (isNonPausableClass(className) || isNonPausableMethod(methodName))
             return null;
 
         ClassMirror cl = classForName(className);
         if (cl == null) return null;
-        
+
         for (MethodMirror om : cl.getDeclaredMethods()) {
             if (om.getName().equals(methodName) && om.getMethodDescriptor().equals(desc)) {
                 if (om.isBridge())
@@ -131,7 +131,7 @@ public class Detector {
         MethodMirror m = findPausableMethod(cl.getSuperclass(), methodName, desc);
         if (m != null)
             return m;
-        
+
         for (String ifname : cl.getInterfaces()) {
             if (isNonPausableClass(ifname)) continue;
             m = findPausableMethod(ifname, methodName, desc);
