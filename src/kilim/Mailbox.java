@@ -23,7 +23,7 @@ import java.util.TimerTask;
 
 public class Mailbox<T> implements PauseReason, EventPublisher {
     // TODO. Give mbox a config name and id and make monitorable
-	protected T[] msgs;
+    protected T[] msgs;
     protected int iprod = 0; // producer index
     protected int icons = 0; // consumer index;
     protected int numMsgs = 0;
