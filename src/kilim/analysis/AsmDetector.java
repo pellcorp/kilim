@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.io.IOException;
 import java.util.HashMap;
 
+import kilim.mirrors.Detector;
+
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -27,18 +29,18 @@ public class AsmDetector {
                 classCache = cache(className, cn);
             }
             int status = classCache.getPausableStatus(methodName, desc);
-            if (status == Detector.METHOD_NOT_FOUND) {
+            if (status == Detector.METHOD_NOT_FOUND_OR_PAUSABLE) {
                 // check super classes
                 for (String superName: classCache.superClasses) {
                     status = detector.getPausableStatus(superName, methodName, desc);
-                    if (status != Detector.METHOD_NOT_FOUND) 
+                    if (status != Detector.METHOD_NOT_FOUND_OR_PAUSABLE) 
                         break;
                 }
             }
             return status;
         } catch (IOException ioe) {
             System.err.println("***Error reading " + className + ": " + ioe.getMessage());
-            return Detector.METHOD_NOT_FOUND;
+            return Detector.METHOD_NOT_FOUND_OR_PAUSABLE;
         }
     }
     private static ClassCache cache(String className, ClassNode cn) {
@@ -83,7 +85,7 @@ public class AsmDetector {
             } else if (otherMethods.contains(md)) {
                 return Detector.METHOD_NOT_PAUSABLE;
             } else { 
-                return Detector.METHOD_NOT_FOUND;
+                return Detector.METHOD_NOT_FOUND_OR_PAUSABLE;
             }
         }
         @Override
