@@ -67,13 +67,13 @@ public class DumpClass extends ClassVisitor implements Opcodes {
     
 
     public DumpClass(InputStream is, int flags) throws IOException {
-	super(Opcodes.ASM4);
+        super(Opcodes.ASM4);
         ClassReader cr = new ClassReader(is);
         cr.accept(this, flags);
     }
 
     public DumpClass(String className, int flags) throws IOException {
-	super(Opcodes.ASM4);
+        super(Opcodes.ASM4);
         ClassReader cr;
         if (className.endsWith(".class")) {
             FileInputStream fis = new FileInputStream(className);
@@ -163,7 +163,7 @@ public class DumpClass extends ClassVisitor implements Opcodes {
 class DummyAnnotationVisitor extends AnnotationVisitor {
 
     public DummyAnnotationVisitor() {
-	super(Opcodes.ASM4);
+        super(Opcodes.ASM4);
     }
 
     public void visit(String name, Object value) {
@@ -191,7 +191,7 @@ class DummyAnnotationVisitor extends AnnotationVisitor {
 class DumpMethodVisitor extends MethodVisitor implements Opcodes {
 
     public DumpMethodVisitor() {
-	super(Opcodes.ASM4);
+        super(Opcodes.ASM4);
     }
 
     static String[] os = {

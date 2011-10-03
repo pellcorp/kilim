@@ -63,7 +63,7 @@ public class CachedClassMirrors extends Mirrors {
     }
 }
 
-class CachedClassMirror extends ClassMirror implements ClassVisitor {
+class CachedClassMirror extends ClassVisitor implements ClassMirror {
 
     String name;
     boolean isInterface;
@@ -74,8 +74,9 @@ class CachedClassMirror extends ClassMirror implements ClassVisitor {
     private List<CachedMethodMirror> tmpMethodList; //used only while processing bytecode. 
     
     public CachedClassMirror(byte []bytecode) {
+        super(Opcodes.ASM4);
         ClassReader cr = new ClassReader(bytecode);
-        cr.accept(this, true);
+        cr.accept(this, ClassReader.SKIP_DEBUG);
     }
 
     @Override
@@ -179,8 +180,9 @@ class CachedClassMirror extends ClassMirror implements ClassVisitor {
             Object value) {
         return null;
     }
-    static class DummyAnnotationVisitor implements AnnotationVisitor {
+    static class DummyAnnotationVisitor extends AnnotationVisitor {
         static DummyAnnotationVisitor singleton = new DummyAnnotationVisitor();
+        public DummyAnnotationVisitor() { super(Opcodes.ASM4); }
         public void visit(String name, Object value) {}
         public AnnotationVisitor visitAnnotation(String name, String desc) {return this;}
         public AnnotationVisitor visitArray(String name) {return DummyAnnotationVisitor.singleton;}

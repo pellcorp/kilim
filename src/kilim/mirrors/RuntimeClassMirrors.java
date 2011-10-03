@@ -121,7 +121,7 @@ class RuntimeMethodMirror implements MethodMirror {
     }
 }
 
-class RuntimeClassMirror extends ClassMirror {
+class RuntimeClassMirror implements ClassMirror {
 
     private final Class<?> clazz;
     private MethodMirror[] methods; 
