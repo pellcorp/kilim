@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import kilim.KilimException;
-import kilim.mirrors.Detector;
+import kilim.analysis.Detector;
 
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassVisitor;

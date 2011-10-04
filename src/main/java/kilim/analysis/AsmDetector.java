@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.io.IOException;
 import java.util.HashMap;
 
-import kilim.mirrors.Detector;
+import kilim.analysis.Detector;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;

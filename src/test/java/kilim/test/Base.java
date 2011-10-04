@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 import kilim.analysis.BasicBlock;
 import kilim.analysis.ClassFlow;
 import kilim.analysis.MethodFlow;
-import kilim.mirrors.Detector;
+import kilim.analysis.Detector;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;

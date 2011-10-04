@@ -12,7 +12,12 @@ import java.util.ArrayList;
 import kilim.Constants;
 import kilim.NotPausable;
 import kilim.Pausable;
-import kilim.analysis.AsmDetector;
+import kilim.mirrors.Mirrors;
+import kilim.mirrors.ClassMirror;
+import kilim.mirrors.ClassMirrorNotFoundException;
+import kilim.mirrors.CachedClassMirrors;
+import kilim.mirrors.RuntimeClassMirrors;
+import kilim.mirrors.MethodMirror;
 
 /**
  * Utility class to check if a method has been marked pausable

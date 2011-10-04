@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 import kilim.Constants;
 import kilim.mirrors.ClassMirrorNotFoundException;
-import kilim.mirrors.Detector;
+import kilim.analysis.Detector;
 
 import org.objectweb.asm.Type;
 
