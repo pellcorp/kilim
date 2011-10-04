@@ -10,6 +10,11 @@ test:
 	java -Dkilim.Scheduler.numThreads=10 -cp ./testclasses:./classes:./libs/asm-all-2.2.3.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllWoven
 
 
+#### Helpful targets
+
+mvn-install-asm4:
+	mvn install:install-file -Dfile=libs/asm-debug-all-4.0_RC2.jar -DgroupId=asm -DartifactId=asm-all -Dversion=4.0_RC2 -Dpackaging=jar
+
 #### These targets are here as a record of what the old build.sh script would do,
 #### you'll never use them.  Just ignore this and someday it will be pruned and
 #### you won't know the difference. :)
