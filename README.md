@@ -62,3 +62,7 @@ After which you'll see Maven do some magic resulting in the following:
 /home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.pom
 /home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.pom.lastUpdated
 ```
+
+#### Java 7 (1.7.x)
+
+This library has been ported to Java 7.  It's now "Write once, run on JDK7 only."
