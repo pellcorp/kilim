@@ -1,22 +1,64 @@
-Kilim v0.7
-Copyright (c) 2006 Sriram Srinivasan.
-(kilim _at_ malhar.net)
-======================================================================
+# Kilim
+Lightweight local/distributed concurrency for Java by message passing
 
-This software is released under an MIT-style licesne (please see the
-License file). 
+Version v0.7 -- Copyright (c) 2006 Sriram Srinivasan <kilim@malhar.net>
 
-Please see docs/manual.txt and docs/kilim_ecoop08.pdf for a brief
+## Overview
+
+This software is released under an MIT-style licesne (please see the License
+file). Please see docs/manual.txt and docs/kilim_ecoop08.pdf for a brief
 introduction.
 
-This software depends on the ASM bytecode library (v 2.2.3). 
+Please use GitHub to report bugs (or better yet submit pull requests).
+Social Coding, FTW!
 
-To build, you can either run "build.sh" on Unix or ant from the top
-directory. Run "test.sh" or "ant test" to test.
+## Building
 
-To run an example, type (say)
-  java -cp ./classes:$CLASSPATH kilim.examples.Chain 10
+Use Maven to build, test and install Kilim.
 
-Please send comments, queries, code fixes, constructive criticisms to 
-kilim _at_ malhar.net
+### Compile
 
+To compile the source into a jar file simply:
+
+``bash
+mvn compile
+```
+
+### Test
+
+To exercise the test suite simply:
+
+```bash
+mvn test
+```
+
+### Examples
+
+To run an example:
+
+```bash
+java -cp ./classes:$CLASSPATH kilim.examples.Chain 10
+```
+
+### Dependencies
+
+#### ASM 4.0_RC2
+
+This software depends on the ASM bytecode library (v 4.0). 
+
+If you don't have ASM version 4.0_RC2 installed in your ~/.m2 directory you'll
+want to install it.  There is a copy in the `libs` directory, to install it
+simply do the following:
+
+```bash
+mvn install:install-file -Dfile=libs/asm-debug-all-4.0_RC2.jar -DgroupId=asm -DartifactId=asm-all -Dversion=4.0_RC2 -Dpackaging=jar
+```
+
+After which you'll see Maven do some magic resulting in the following:
+
+```bash
+/home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.jar
+/home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.jar.lastUpdated
+/home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.pom
+/home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.pom.lastUpdated
+```
