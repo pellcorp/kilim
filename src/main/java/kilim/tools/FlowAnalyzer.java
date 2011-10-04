@@ -28,7 +28,7 @@ import kilim.analysis.MethodFlow;
 import kilim.analysis.TypeDesc;
 import kilim.analysis.Usage;
 import kilim.analysis.Value;
-import kilim.mirrors.Detector;
+import kilim.analysis.Detector;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;

@@ -6,7 +6,7 @@
 package kilim.analysis;
 
 import kilim.*;
-import kilim.mirrors.Detector;
+import kilim.analysis.Detector;
 
 import java.io.IOException;
 import java.io.InputStream;
