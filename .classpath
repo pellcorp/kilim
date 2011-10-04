@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="examples"/>
-	<classpathentry excluding="scala/" kind="src" path="bench"/>
-	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="lib" path="libs/asm-debug-all-4.0_RC2.jar" src="/Users/gburd/eng/asm" />
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="libs/junit.jar"/>
-	<classpathentry kind="output" path="classes"/>
+  <classpathentry kind="src" path="src" including="**/*.java"/>
+  <classpathentry kind="src" path="bench" including="**/*.java"/>
+  <classpathentry kind="src" path="examples" including="**/*.java"/>
+  <classpathentry kind="output" path="classes"/>
+  <classpathentry kind="var" path="M2_REPO/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.1/hamcrest-core-1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.9/junit-4.9.jar"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
