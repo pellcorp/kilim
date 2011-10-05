@@ -65,14 +65,42 @@
 	    </goals>
 	  </execution>
 	</executions>
-	<!--<configuration> <filesets> <fileset> <directory>.</directory> <includes> 
-	    <include>${project.build.outputDirectory}</include> <include>${project.build.testOutputDirectory}</include> 
-	  </includes> </fileset> </filesets> </configuration> -->
-      </plugin><!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-javadoc-plugin</artifactId> 
-		    <executions> <execution> <id>attach-javadocs</id> <goals> <goal>jar</goal> 
-		    </goals> </execution> </executions> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
-		    <artifactId>maven-source-plugin</artifactId> <executions> <execution> <id>attach-sources</id> 
-			<goals> <goal>jar</goal> </goals> </execution> </executions> </plugin> -->
+	<configuration>
+          <filesets>
+            <fileset>
+              <directory>.</directory>
+              <includes>
+                <include>${project.build.outputDirectory}</include>
+                <include>${project.build.testOutputDirectory}</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-compiler-plugin</artifactId>
@@ -199,7 +227,7 @@
 	      <testClassesDirectory>${basedir}/testclasses</testClassesDirectory>
 	      <classpathDependencyScopeExclude>runtime</classpathDependencyScopeExclude>
 	      <systemPropertyVariables>
-		<kilim.Scheduler.numThreads>10</kilim.Scheduler.numThreads>
+		<kilim.Scheduler.numThreads>16</kilim.Scheduler.numThreads>
 	      </systemPropertyVariables>
 	      <includes>
 		<include>kilim/test/AllWoven.java</include>
