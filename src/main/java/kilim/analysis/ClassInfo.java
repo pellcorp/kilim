@@ -17,8 +17,7 @@ public class ClassInfo {
     public byte[] bytes;
 
     public ClassInfo(String aClassName, byte[] aBytes) {
-      className = aClassName.replace('/', '.');
-//        className = aClassName.replace('.', '/');
+        className = aClassName.replace('/', '.');
         bytes = aBytes;
     }
     

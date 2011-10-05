@@ -39,7 +39,7 @@ import org.objectweb.asm.tree.InnerClassNode;
  * CPS transformed file if needed
  */
 public class ClassWeaver {
-    public ClassFlow       classFlow;
+    public ClassFlow classFlow;
     List<ClassInfo> classInfoList = new LinkedList<ClassInfo>();
     
     static ThreadLocal<HashSet<String>> stateClasses = new ThreadLocal<HashSet<String>>() {
@@ -47,7 +47,7 @@ public class ClassWeaver {
     		return new HashSet<String>();
     	}
     };
-    
+
     public static void reset() {
     	stateClasses.set(new HashSet<String>());
     }

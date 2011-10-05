@@ -298,8 +298,7 @@ public class BasicBlock implements Comparable<BasicBlock> {
                 case IF_ACMPNE:
                 case JSR:
                 case GOTO:
-                    LabelNode l = ((JumpInsnNode) ain).label;
-                    bb = flow.getOrCreateBasicBlock(l.getLabel());
+                    bb = flow.getOrCreateBasicBlock(((JumpInsnNode)ain).label.getLabel());
                     if (opcode == JSR) {
                         bb.setFlag(IS_SUBROUTINE);
                         hasFollower = false;
@@ -335,8 +334,7 @@ public class BasicBlock implements Comparable<BasicBlock> {
                         otherLabels = ((LookupSwitchInsnNode) ain).labels;
                     }
                     for (Iterator<LabelNode> it = otherLabels.iterator(); it.hasNext();) {
-                        l = (LabelNode) it.next();
-                        addSuccessor(flow.getOrCreateBasicBlock(l.getLabel()));
+                        addSuccessor(flow.getOrCreateBasicBlock(((LabelNode)it.next()).getLabel()));
                     }
                     addSuccessor(flow.getOrCreateBasicBlock(defaultLabel.getLabel()));
                     endOfBB = true;
@@ -346,14 +344,13 @@ public class BasicBlock implements Comparable<BasicBlock> {
                 case INVOKEVIRTUAL:
                 case INVOKESTATIC:
                 case INVOKEINTERFACE:
-                case INVOKEDYNAMIC:
+                case INVOKEDYNAMIC: // TODO this is new and mysterious
                 case INVOKESPECIAL:
                     if (flow.isPausableMethodInsn((MethodInsnNode) ain)) {
                         if (pos == startPos) {
                             setFlag(PAUSABLE);
                         } else {
-                            Label ll = flow.getOrCreateLabelAtPos(pos);
-                            bb = flow.getOrCreateBasicBlock(ll);
+                            bb = flow.getOrCreateBasicBlock(flow.getOrCreateLabelAtPos(pos));
                             bb.setFlag(PAUSABLE);
                             addSuccessor(bb);
                             pos--; // don't consume this instruction
@@ -427,10 +424,10 @@ public class BasicBlock implements Comparable<BasicBlock> {
                 if (succ.numPredecessors == 1 && lastInstruction() != GOTO &&
                     lastInstruction() != JSR && !succ.isPausable()) {
                     // successor can be merged, absorb succesors and usage mask
-                    successors = succ.successors;
-                    follower = succ.follower;
-                    usage.absorb(succ.usage);
-                    endPos = succ.endPos;
+                    this.successors = succ.successors;
+                    this.follower = succ.follower;
+                    this.usage.absorb(succ.usage);
+                    this.endPos = succ.endPos;
                     succ.setFlag(COALESCED);
                     // mark succ so it doesn't get visited. This block's merk
                     // remains 0. We'll let the outer driver loop to revisit
@@ -945,7 +942,7 @@ public class BasicBlock implements Comparable<BasicBlock> {
                     case INVOKESPECIAL:
                     case INVOKESTATIC:
                     case INVOKEINTERFACE:
-                    case INVOKEDYNAMIC:
+                    case INVOKEDYNAMIC: // TODO this is new and mysterious
                         // pop args, push return value
                         MethodInsnNode min = ((MethodInsnNode) ain);
                         String desc = min.desc;
@@ -1066,7 +1063,7 @@ public class BasicBlock implements Comparable<BasicBlock> {
                         v = Value.make(i, TypeDesc.getInterned(sb.toString()));
                         frame.push(v);
                         break;
-		    case -1:
+                    case -1: // TODO this is new and mysterious
                         break;
                     default:
                         assert false : "Unexpected opcode: " + ain.getOpcode();
@@ -1317,9 +1314,6 @@ public class BasicBlock implements Comparable<BasicBlock> {
                         assert dupLabel != null;
                         lastInsn = new JumpInsnNode(lastInsn.getOpcode(), dupLabel);
                     }
-                } else if (lastInsn instanceof VarInsnNode) {
-                    VarInsnNode vin = (VarInsnNode) lastInsn;
-                    lastInsn = new VarInsnNode(lastInsn.getOpcode(), vin.var);
                 } else if (opcode == TABLESWITCH) {
                     TableSwitchInsnNode tsin = (TableSwitchInsnNode) lastInsn;
                     LabelNode[] labels = new LabelNode[tsin.labels.size()];
@@ -1346,8 +1340,6 @@ public class BasicBlock implements Comparable<BasicBlock> {
                         keys[i] = (Integer) lsin.keys.get(i);
                     }
                     lastInsn = new LookupSwitchInsnNode(dupLabel, keys, labels);
-                } else {
-                    new Exception("Instruction node not properly deepCopy'ed").printStackTrace();
                 }
                 instructions.add(lastInsn);
                 // new handlers
@@ -1499,8 +1491,7 @@ public class BasicBlock implements Comparable<BasicBlock> {
 
     @SuppressWarnings("unchecked")
     void setInstruction(int pos, AbstractInsnNode insn) {
-        AbstractInsnNode location = flow.instructions.get(pos);
-		flow.instructions.set(location, insn);
+        flow.instructions.set(flow.instructions.get(pos), insn);
     }
 
     void changeLastInsnToGOTO(Label label) {
