@@ -3,11 +3,13 @@ all:
 	mvn compile -e
 
 test:
-	java -ea kilim.tools.Weaver -d ./classes -cp libs/asm-debug-all-4.0_RC2.jar -x "ExInvalid|test" ./classes
+	@rm -rf /tmp/woven-classes
+	@mkdir /tmp/woven-classes
+	java -ea -cp ./classes:./libs/asm-debug-all-4.0_RC2.jar kilim.tools.Weaver -x "ExInvalid|test" ./classes -d ./tmp/woven-classes
 	echo "Testing Kilim Weaver"
-	java -cp ./classes:./libs/asm-all-2.2.3.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllNotWoven
+	java -ea -cp ./classes:./libs/asm-debug-all-4.0_RC2.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllNotWoven
 	echo "Task, mailbox tests"
-	java -Dkilim.Scheduler.numThreads=10 -cp ./testclasses:./classes:./libs/asm-all-2.2.3.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllWoven
+	java -Dkilim.Scheduler.numThreads=16 -cp ./tmp/woven-classes:./classes:./libs/asm-debug-all-4.0_RC2.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllWoven
 
 
 #### Helpful targets

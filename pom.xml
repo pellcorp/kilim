@@ -28,7 +28,7 @@
 
   <build>
     <sourceDirectory>src/</sourceDirectory>
-    <testSourceDirectory>test/</testSourceDirectory>
+    <testSourceDirectory>src/test/</testSourceDirectory>
     <outputDirectory>classes/</outputDirectory>
     <testOutputDirectory>classes/</testOutputDirectory>
     <plugins>
@@ -113,8 +113,8 @@
 		<argument>kilim.tools.Asm</argument>
 		<argument>-d</argument>
 		<argument>${project.build.outputDirectory}</argument>
-		<argument>${project.build.testSourceDirectory}/kilim/test/ex/ExJSR.j</argument>
-		<argument>${project.build.testSourceDirectory}/kilim/test/ex/ExYieldSub.j</argument>
+		<argument>${project.build.testSourceDirectory}/java/kilim/test/ex/ExJSR.j</argument>
+		<argument>${project.build.testSourceDirectory}/java/kilim/test/ex/ExYieldSub.j</argument>
 	      </arguments>
 	    </configuration>
 	  </execution>
