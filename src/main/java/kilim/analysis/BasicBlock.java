@@ -1287,8 +1287,6 @@ public class BasicBlock implements Comparable<BasicBlock> {
                 dup.startLabel = labelCopyMap.get(orig.startLabel).getLabel();
                 dup.startPos = instructions.size();
                 dup.endPos = dup.startPos + (orig.endPos - orig.startPos);
-                System.out.println("startPos: " + dup.startPos + " orig.endPos: " + orig.endPos + " orig.startPos: " + orig.startPos + " (orig.endPos - orig.startPos): " + (orig.endPos - orig.startPos) + " endPos: " + dup.endPos + " size: " + dup.flow.instructions.size());
-//                new Exception().printStackTrace();
                 // Note: last instruction (@endPos) isn't copied in the loop.
                 // If it has labels, a new instruction is generated; either
                 // way the last instruction is appended separately.
