@@ -9,6 +9,11 @@ import static kilim.Constants.THROWABLE_CLASS;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
+
 
 /**
  * Representation for a catch handler. 
@@ -57,13 +62,14 @@ public class Handler implements Comparable<Handler> {
     }
     
     public static ArrayList<Handler> consolidate( ArrayList<Handler> list) {
-        Collections.sort(list);
-        ArrayList<Handler> newList = new ArrayList<Handler>(list.size());
+        ArrayList<Handler> sortedList = new ArrayList<Handler>(list);
+        Collections.sort(sortedList);
+        Set<Handler> consolidated = new HashSet<Handler>();
         Handler cur = null;
-        for (Handler h: list) {
+        for (Handler h: sortedList) {
             if (cur == null) {
                 cur = h;
-                newList.add(cur);
+                consolidated.add(cur);
                 continue;
             } 
             // Two options here. Either h is contiguous with c or it isn't. Contiguous
@@ -73,7 +79,13 @@ public class Handler implements Comparable<Handler> {
                 cur.to = h.to;
             } else {
                 cur = h;
-                newList.add(cur);
+                consolidated.add(cur);
+            }
+        }
+        ArrayList<Handler> newList = new ArrayList<Handler>(consolidated.size());
+        for (Handler h: list) {
+            if (consolidated.contains(h)) {
+                newList.add(h);
             }
         }
         return newList;
