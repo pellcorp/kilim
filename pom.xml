@@ -1,6 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -22,37 +22,16 @@
     <dependency>
       <groupId>asm</groupId>
       <artifactId>asm-all</artifactId>
-      <version>4.0_RC2</version>
+      <version>4.0</version>
     </dependency>
   </dependencies>
 
   <build>
     <sourceDirectory>src/</sourceDirectory>
-    <testSourceDirectory>src/test/</testSourceDirectory>
     <outputDirectory>classes/</outputDirectory>
+    <testSourceDirectory>src/test/</testSourceDirectory>
     <testOutputDirectory>classes/</testOutputDirectory>
     <plugins>
-      <plugin>
-	<groupId>org.codehaus.mojo</groupId>
-	<artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.7</version>
-	<executions>
-	  <execution>
-	    <id>add-source</id>
-	    <phase>generate-sources</phase>
-	    <goals>
-	      <goal>add-source</goal>
-	    </goals>
-	    <configuration>
-              <executable>${JAVA_1_7_HOME}/bin/javac</executable>
-	      <sources>
-		<source>${basedir}/bench</source>
-		<source>${basedir}/examples</source>
-	      </sources>
-	    </configuration>
-	  </execution>
-	</executions>
-      </plugin>
       <plugin>
 	<artifactId>maven-clean-plugin</artifactId>
 	<version>2.4.1</version>
@@ -66,45 +45,42 @@
 	  </execution>
 	</executions>
 	<configuration>
-          <filesets>
-            <fileset>
-              <directory>.</directory>
-              <includes>
-                <include>${project.build.outputDirectory}</include>
-                <include>${project.build.testOutputDirectory}</include>
-              </includes>
-            </fileset>
-          </filesets>
-        </configuration>
+	  <filesets>
+	    <fileset>
+	      <directory>.</directory>
+	      <includes>
+		<include>${project.build.outputDirectory}</include>
+		<include>${project.build.testOutputDirectory}</include>
+	      </includes>
+	    </fileset>
+	  </filesets>
+	</configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-javadocs</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>build-helper-maven-plugin</artifactId>
+	<version>1.7</version>
+	<executions>
+	  <execution>
+	    <id>add-source</id>
+	    <phase>generate-sources</phase>
+	    <goals>
+	      <goal>add-source</goal>
+	    </goals>
+	    <configuration>
+	      <executable>${JAVA_1_7_HOME}/bin/javac</executable>
+	      <sources>
+		<source>${basedir}/bench</source>
+		<source>${basedir}/examples</source>
+	      </sources>
+	    </configuration>
+	  </execution>
+	</executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>attach-sources</id>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-compiler-plugin</artifactId>
-        <version>2.3.2</version>
+	<version>2.3.2</version>
 	<configuration>
 	  <debug>true</debug>
 	  <source>${jdk.version}</source>
@@ -112,18 +88,44 @@
 	</configuration>
       </plugin>
       <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-javadoc-plugin</artifactId>
+	<version>2.8</version>
+	<executions>
+	  <execution>
+	    <id>attach-javadocs</id>
+	    <goals>
+	      <goal>jar</goal>
+	    </goals>
+	  </execution>
+	</executions>
+      </plugin>
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-source-plugin</artifactId>
+	<version>2.1.2</version>
+	<executions>
+	  <execution>
+	    <id>attach-sources</id>
+	    <goals>
+	      <goal>jar</goal>
+	    </goals>
+	  </execution>
+	</executions>
+      </plugin>
+      <plugin>
 	<groupId>org.codehaus.mojo</groupId>
 	<artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
-        <dependencies>
-          <dependency>
-            <groupId>com.sun</groupId>
-            <artifactId>tools</artifactId>
-            <version>1.7.0</version>
-            <scope>system</scope>
-            <systemPath>${java.home}/../lib/tools.jar</systemPath>
-          </dependency>
-        </dependencies>
+	<version>1.2.1</version>
+	<dependencies>
+	  <dependency>
+	    <groupId>com.sun</groupId>
+	    <artifactId>tools</artifactId>
+	    <version>1.7.0</version>
+	    <scope>system</scope>
+	    <systemPath>${java.home}/../lib/tools.jar</systemPath>
+	  </dependency>
+	</dependencies>
 	<executions>
 	  <execution>
 	    <!-- java -ea kilim.tools.Asm -d ./classes `find . -name "*.j"` -->
@@ -194,6 +196,7 @@
 	  </execution>
 	</executions>
       </plugin>
+
       <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-surefire-plugin</artifactId>
@@ -238,5 +241,16 @@
       </plugin>
     </plugins>
   </build>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/kilim/kilim/issues</url>
+  </issueManagement>
+  <name>Kilim</name>
+  <description>Kilim is a message-passing framework for Java that provides ultra-lightweight threads and facilities for fast, safe, zero-copy messaging between these threads.
 
+    It consists of a bytecode postprocessor (a &quot;weaver&quot;), a run time library with buffered mailboxes (multi-producer, single consumer queues) and a user-level scheduler and a type system that puts certain constraints on pointer aliasing within messages to ensure interference-freedom between threads.</description>
+  <url>http://www.malhar.net/sriram/kilim/</url>
+  <scm>
+    <url>https://github.com/gburd/kilim.git</url>
+  </scm>
 </project>

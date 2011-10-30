@@ -5,23 +5,23 @@ all:
 test:
 	@rm -rf /tmp/woven-classes
 	@mkdir /tmp/woven-classes
-	java -ea -cp ./classes:./libs/asm-debug-all-4.0_RC2.jar kilim.tools.Weaver -x "ExInvalid|test" ./classes -d ./tmp/woven-classes
+	java -ea -cp ./classes:./libs/asm-debug-all-4.0.jar kilim.tools.Weaver -x "ExInvalid|test" ./classes -d ./tmp/woven-classes
 	echo "Testing Kilim Weaver"
-	java -ea -cp ./classes:./libs/asm-debug-all-4.0_RC2.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllNotWoven
+	java -ea -cp ./classes:./libs/asm-debug-all-4.0.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllNotWoven
 	echo "Task, mailbox tests"
-	java -Dkilim.Scheduler.numThreads=16 -cp ./tmp/woven-classes:./classes:./libs/asm-debug-all-4.0_RC2.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllWoven
+	java -Dkilim.Scheduler.numThreads=16 -cp ./tmp/woven-classes:./classes:./libs/asm-debug-all-4.0.jar:./libs/junit.jar junit.textui.TestRunner kilim.test.AllWoven
 
 
 #### Helpful targets
 
 mvn-install-asm4:
-	mvn install:install-file -Dfile=libs/asm-debug-all-4.0_RC2.jar -DgroupId=asm -DartifactId=asm-all -Dversion=4.0_RC2 -Dpackaging=jar
+	mvn install:install-file -Dfile=libs/asm-debug-all-4.0.jar -DgroupId=asm -DartifactId=asm-all -Dversion=4.0 -Dpackaging=jar
 
 #### These targets are here as a record of what the old build.sh script would do,
 #### you'll never use them.  Just ignore this and someday it will be pruned and
 #### you won't know the difference. :)
 
-CLASSPATH=./classes:./testclasses:./libs/asm-debug-all-4.0_RC2.jar:./libs/junit.jar:$CLASSPATH
+CLASSPATH=./classes:./testclasses:./libs/asm-debug-all-4.0.jar:./libs/junit.jar:$CLASSPATH
 
 build-setup:
 	rm -rf ./classes

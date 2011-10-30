@@ -42,25 +42,25 @@ java -cp ./classes:$CLASSPATH kilim.examples.Chain 10
 
 ### Dependencies
 
-#### ASM 4.0_RC2
+#### ASM 4.0
 
 This software depends on the ASM bytecode library (v 4.0). 
 
-If you don't have ASM version 4.0_RC2 installed in your ~/.m2 directory you'll
+If you don't have ASM version 4.0 installed in your ~/.m2 directory you'll
 want to install it.  There is a copy in the `libs` directory, to install it
 simply do the following:
 
 ```bash
-mvn install:install-file -Dfile=libs/asm-debug-all-4.0_RC2.jar -DgroupId=asm -DartifactId=asm-all -Dversion=4.0_RC2 -Dpackaging=jar
+mvn install:install-file -Dfile=libs/asm-debug-all-4.0.jar -DgroupId=asm -DartifactId=asm-all -Dversion=4.0 -Dpackaging=jar
 ```
 
 After which you'll see Maven do some magic resulting in the following:
 
 ```bash
-/home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.jar
-/home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.jar.lastUpdated
-/home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.pom
-/home/you/.m2/repository/asm/asm-all/4.0_RC2/asm-all-4.0_RC2.pom.lastUpdated
+/home/you/.m2/repository/asm/asm-all/4.0/asm-all-4.0.jar
+/home/you/.m2/repository/asm/asm-all/4.0/asm-all-4.0.jar.lastUpdated
+/home/you/.m2/repository/asm/asm-all/4.0/asm-all-4.0.pom
+/home/you/.m2/repository/asm/asm-all/4.0/asm-all-4.0.pom.lastUpdated
 ```
 
 #### Java 7 (1.7.x)
