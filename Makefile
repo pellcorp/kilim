@@ -2,6 +2,10 @@
 all:
 	mvn compile -e
 
+clean:
+	mvn clean
+	@rm -rf ./tmp
+
 test:
 	@rm -rf /tmp/woven-classes
 	@mkdir /tmp/woven-classes
