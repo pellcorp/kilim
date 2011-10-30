@@ -224,7 +224,7 @@ public class BasicBlock implements Comparable<BasicBlock> {
     }
 
     Detector detector() {
-    	return flow.detector();
+        return flow.detector();
     }
     
     /**
@@ -361,9 +361,9 @@ public class BasicBlock implements Comparable<BasicBlock> {
                     break;
 
                 default:
-                	if (opcode >= 26 && opcode <= 45)
-                    	throw new IllegalStateException("instruction variants not expected here");
-                	
+                    if (opcode >= 26 && opcode <= 45)
+                        throw new IllegalStateException("instruction variants not expected here");
+                    
                     break;
             }
 

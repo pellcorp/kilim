@@ -199,7 +199,7 @@ public class Mailbox<T> implements PauseReason, EventPublisher {
             
             timeoutMillis = end - System.currentTimeMillis();
             if (timeoutMillis <= 0) {
-            	removeMsgAvailableListener(t);
+                removeMsgAvailableListener(t);
                 break;
             }
         }

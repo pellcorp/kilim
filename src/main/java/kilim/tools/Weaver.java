@@ -50,8 +50,8 @@ public class Weaver {
      * @see #weave(List) for run-time weaving.
      */
     public static void main(String[] args) throws IOException {
-	if (verbose)
-	    System.out.println(System.getProperty("java.class.path"));
+    if (verbose)
+        System.out.println(System.getProperty("java.class.path"));
 
         Detector detector = Detector.DEFAULT;
 
@@ -88,15 +88,15 @@ public class Weaver {
                 }
             } catch (KilimException ke) {
                 System.err.println("Error weaving " + currentName + ". " + ke.getMessage());
-		if (traces)
-		    ke.printStackTrace();
+        if (traces)
+            ke.printStackTrace();
                 System.exit(1);
             } catch (IOException ioe) {
                 System.err.println("Unable to find/process '" + currentName + "'");
                 System.exit(1);
             } catch (Throwable t) {
                 System.err.println("Error weaving " + currentName);
-		if (traces)
+        if (traces)
                 t.printStackTrace();
                 System.exit(1);
             }
@@ -115,12 +115,12 @@ public class Weaver {
             writeClasses(cw);
         } catch (KilimException ke) {
             System.err.println("***** Error weaving " + name + ". " + ke.getMessage());
-	    if (traces)
-		ke.printStackTrace();
+        if (traces)
+        ke.printStackTrace();
             err = 1;
         } catch (RuntimeException re) {
             System.err.println("***** Error weaving " + name + ". " + re.getMessage());
-	    if (traces)
+        if (traces)
             re.printStackTrace();
             err = 1;
         } catch (IOException ioe) {
@@ -136,8 +136,8 @@ public class Weaver {
         } catch (KilimException ke) {
             err = 1;
             System.err.println("***** Error weaving " + name + ". " + ke.getMessage());
-	    if (traces)
-		ke.printStackTrace();
+        if (traces)
+        ke.printStackTrace();
 
         } catch (IOException ioe) {
             err = 1;
@@ -154,8 +154,8 @@ public class Weaver {
         } catch (KilimException ke) {
             err = 1;
             System.err.println("***** Error weaving " + name + ". " + ke.getMessage());
-	    if (traces)
-		ke.printStackTrace();
+        if (traces)
+        ke.printStackTrace();
             throw ke;
 
         } catch (IOException ioe) {

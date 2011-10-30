@@ -43,13 +43,13 @@ public class ClassWeaver {
     List<ClassInfo> classInfoList = new LinkedList<ClassInfo>();
     
     static ThreadLocal<HashSet<String>> stateClasses = new ThreadLocal<HashSet<String>>() {
-    	protected java.util.HashSet<String> initialValue() {
-    		return new HashSet<String>();
-    	}
+        protected java.util.HashSet<String> initialValue() {
+            return new HashSet<String>();
+        }
     };
 
     public static void reset() {
-    	stateClasses.set(new HashSet<String>());
+        stateClasses.set(new HashSet<String>());
     }
 
     public ClassWeaver(byte[] data) {

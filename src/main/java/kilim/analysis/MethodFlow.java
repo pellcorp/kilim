@@ -45,7 +45,7 @@ import org.objectweb.asm.tree.TryCatchBlockNode;
  */
 public class MethodFlow extends MethodNode {
     
-	
+    
     /**
      * The classFlow to which this methodFlow belongs
      */
@@ -85,7 +85,7 @@ public class MethodFlow extends MethodNode {
 
     private List<MethodInsnNode> pausableMethods = new LinkedList<MethodInsnNode>();
     
-	private final Detector detector;
+    private final Detector detector;
     
     public MethodFlow(
             ClassFlow classFlow,
@@ -182,8 +182,8 @@ public class MethodFlow extends MethodNode {
 /*
     @Override
     public void visitLineNumber(int line, Label start) {
-    	// TODO Auto-generated method stub
-    	super.visitLineNumber(line, start);
+        // TODO Auto-generated method stub
+        super.visitLineNumber(line, start);
     }
 */
     
@@ -411,7 +411,7 @@ public class MethodFlow extends MethodNode {
     
     @Override
     public LabelNode getLabelNode(Label arg0) {
-    	return super.getLabelNode(arg0);
+        return super.getLabelNode(arg0);
     }
     
     int getLabelPosition(LabelNode l) {
@@ -597,8 +597,8 @@ public class MethodFlow extends MethodNode {
         return ((this.access & ACC_VOLATILE) != 0);
     }
 
-	public Detector detector() {
-		return this.classFlow.detector();
+    public Detector detector() {
+        return this.classFlow.detector();
 }
 
 
