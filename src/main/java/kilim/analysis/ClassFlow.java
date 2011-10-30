@@ -87,7 +87,7 @@ public class ClassFlow extends ClassNode {
                 }
             }
             if (isWoven && !forceAnalysis) 
-                return new ArrayList<MethodFlow>(); // This is a hack. 
+                return new ArrayList<MethodFlow>(); // TODO This is a hack.
 
 
             cr = null; // We don't need this any more.
@@ -136,9 +136,8 @@ public class ClassFlow extends ClassNode {
                     return mf;
             }
         }
-        return null;
-        // throw new AssertionError("Bridge method found, but original method does not exist\nBridge method:" +
-        // this.name + "::" + bridgeMethod.name + bridgeMethod.desc);
+        throw new AssertionError("Bridge method found, but original method does not exist\nBridge method:" + this.name + "::" + bridgeMethod.name + bridgeMethod.desc);
+        // TODO return null;
     }
 
     public String getClassDescriptor() {

@@ -161,10 +161,14 @@ public class TypeDesc {
     }
 
     /**
-     * Given two type descriptors, it returns an appropriate merge: 1) If they are Array types, the
-     * result is a an array of the merged component types 2) If they are ref types, it returns the
-     * least common super type. If one of them is an interface, the result is D_OBJECT 3) All other
-     * types must match exactly in order to not raise an error.
+     * Given two type descriptors, it returns an appropriate merge:
+     *    1) If they are Array types, the result is a an array of the
+     *       merged component types
+     *    2) If they are ref types, it returns the least common
+     *       super type. If one of them is an interface, the result
+     *       is D_OBJECT
+     *    3) All other types must match exactly in order to not
+     *       raise an error.
      */
 
     public static String mergeType(String a, String b) throws IncompatibleTypesException {

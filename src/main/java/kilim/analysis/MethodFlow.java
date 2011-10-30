@@ -274,7 +274,7 @@ public class MethodFlow extends MethodNode {
     @SuppressWarnings("unchecked")
     private void assignCatchHandlers() {
         ArrayList<TryCatchBlockNode> tcbs = (ArrayList<TryCatchBlockNode>) tryCatchBlocks;
-        /// aargh. I'd love to create an array of Handler objects, but generics
+        /// TODO aargh. I'd love to create an array of Handler objects, but generics
         // doesn't care for it.
         if (tcbs.size() == 0) return;
         ArrayList<Handler> handlers= new ArrayList<Handler>(tcbs.size());
