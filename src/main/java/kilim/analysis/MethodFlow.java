@@ -179,11 +179,13 @@ public class MethodFlow extends MethodNode {
     /* (non-Javadoc)
      * @see org.objectweb.asm.tree.MethodNode#visitLineNumber(int, org.objectweb.asm.Label)
      */
+/*
     @Override
     public void visitLineNumber(int line, Label start) {
     	// TODO Auto-generated method stub
     	super.visitLineNumber(line, start);
     }
+*/
     
     @Override
     public void visitLabel(Label label) {
@@ -193,7 +195,7 @@ public class MethodFlow extends MethodNode {
 //            super.visitLabel(label);
     }
     
-    /*
+/*
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         AnnotationVisitor av = super.visitAnnotation(desc, visible);
@@ -211,7 +213,9 @@ public class MethodFlow extends MethodNode {
         // functionality.
         if (!classFlow.isWoven) {
             int methodStatus = detector.getPausableStatus(owner, name, desc);
-            if (methodStatus == Detector.PAUSABLE_METHOD_FOUND) {
+            if (methodStatus == Detector.METHOD_NOT_FOUND_OR_PAUSABLE) {
+                throw new KilimException("Check classpath. Method " + owner + "." + name + desc + " could not be located");
+            } else if (methodStatus == Detector.PAUSABLE_METHOD_FOUND) {
                 MethodInsnNode min = (MethodInsnNode)instructions.get(instructions.size()-1);
                 pausableMethods.add(min);
             }
