@@ -6,9 +6,9 @@ package kilim.mirrors;
  * loaded Class objects or parsed bytecode.
  */
 public abstract class Mirrors {
-	abstract public ClassMirror classForName(String className)
-		throws ClassMirrorNotFoundException;
+    abstract public ClassMirror classForName(String className)
+        throws ClassMirrorNotFoundException;
 
-	public abstract ClassMirror  mirror(Class<?> clazz);
+    public abstract ClassMirror  mirror(Class<?> clazz);
     public abstract ClassMirror  mirror(String className, byte[] bytecode);
 }

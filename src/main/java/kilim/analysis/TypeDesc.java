@@ -180,13 +180,11 @@ public class TypeDesc {
         char ac = a.charAt(0);
         char bc = b.charAt(0);
         if (a == D_NULL) {
-            assert b == D_NULL || bc == 'L' || bc == '[' : "merging NULL type with non ref type: "
-                    + b;
+            assert b == D_NULL || bc == 'L' || bc == '[' : "merging NULL type with non ref type: " + b;
             return b;
         }
         if (b == D_NULL) {
-            assert b == D_NULL || bc == 'L' || bc == '[' : "merging NULL type with non ref type: "
-                    + a;
+            assert b == D_NULL || bc == 'L' || bc == '[' : "merging NULL type with non ref type: " + a;
             return a;
         }
         if (a == b || a.equals(b))
@@ -208,8 +206,7 @@ public class TypeDesc {
         case '[':
             if (bc == '[') {
                 try {
-                    return "["
-                            + mergeType(TypeDesc.getComponentType(a), TypeDesc.getComponentType(b));
+                    return "[" + mergeType(TypeDesc.getComponentType(a), TypeDesc.getComponentType(b));
                 } catch (IncompatibleTypesException ite) {
                     // The component types are incompatible, but two disparate arrays still
                     // inherit from Object
