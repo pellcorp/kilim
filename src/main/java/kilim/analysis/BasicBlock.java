@@ -487,7 +487,7 @@ public class BasicBlock implements Comparable<BasicBlock> {
         @SuppressWarnings("unused")
         boolean canThrowException = false;
         boolean propagateFrame = true;
-	int i = 0;
+        int i = 0;
         try {
             for (i = startPos; i <= endPos; i++) {
                 AbstractInsnNode ain = getInstruction(i);
