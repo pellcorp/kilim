@@ -179,23 +179,22 @@ public class MethodFlow extends MethodNode {
     /* (non-Javadoc)
      * @see org.objectweb.asm.tree.MethodNode#visitLineNumber(int, org.objectweb.asm.Label)
      */
-/*
     @Override
     public void visitLineNumber(int line, Label start) {
         // TODO Auto-generated method stub
         super.visitLineNumber(line, start);
     }
-*/
     
     @Override
     public void visitLabel(Label label) {
-//        if (hasPausableAnnotation)
+// TODO
+//       if (hasPausableAnnotation)
             setLabel(instructions.size(), label);
 //        else
 //            super.visitLabel(label);
     }
     
-/*
+/* TODO
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         AnnotationVisitor av = super.visitAnnotation(desc, visible);
@@ -213,9 +212,7 @@ public class MethodFlow extends MethodNode {
         // functionality.
         if (!classFlow.isWoven) {
             int methodStatus = detector.getPausableStatus(owner, name, desc);
-            if (methodStatus == Detector.METHOD_NOT_FOUND_OR_PAUSABLE) {
-                throw new KilimException("Check classpath. Method " + owner + "." + name + desc + " could not be located");
-            } else if (methodStatus == Detector.PAUSABLE_METHOD_FOUND) {
+            if (methodStatus == Detector.PAUSABLE_METHOD_FOUND) {
                 MethodInsnNode min = (MethodInsnNode)instructions.get(instructions.size()-1);
                 pausableMethods.add(min);
             }
@@ -418,10 +415,6 @@ public class MethodFlow extends MethodNode {
         return labelToPosMap.get(l.getLabel());
     }
     
-    int getLabelPosition(Label l) {
-        return labelToPosMap.get(l);
-    }
-    
     BasicBlock getOrCreateBasicBlock(Label l) { 
         BasicBlock ret = labelToBBMap.get(l);
         if (ret == null) {
@@ -540,12 +533,12 @@ public class MethodFlow extends MethodNode {
                 ((LocalVariableNode) localVariables.get(i)).accept(mv);
             }
             // visits line numbers
-            /*
+/* TODO this was in ASM 2.3.3 but not 3.x or 4.0, find a substitute or remove
             n = lineNumbers == null ? 0 : lineNumbers.size();
             for (i = 0; i < n; ++i) {
                 ((LineNumberNode) lineNumbers.get(i)).accept(mv);
             }
-            */
+*/
             // visits maxs
             mv.visitMaxs(maxStack, maxLocals);
         }

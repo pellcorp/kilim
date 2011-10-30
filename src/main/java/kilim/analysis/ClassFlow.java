@@ -136,8 +136,8 @@ public class ClassFlow extends ClassNode {
                     return mf;
             }
         }
-        throw new AssertionError("Bridge method found, but original method does not exist\nBridge method:" + this.name + "::" + bridgeMethod.name + bridgeMethod.desc);
-        // TODO return null;
+        return null;
+        // TODO throw new AssertionError("Bridge method found, but original method does not exist\nBridge method:" + this.name + "::" + bridgeMethod.name + bridgeMethod.desc);
     }
 
     public String getClassDescriptor() {

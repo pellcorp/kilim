@@ -155,25 +155,24 @@ public class MethodWeaver {
         mv.visitCode();
         visitTryCatchBlocks(mv);
         visitInstructions(mv);
-        //visitLineNumbers(mv);
+// TODO       visitLineNumbers(mv);
         visitLocals(mv);
         mv.visitMaxs(maxStack, maxVars);
     }
   
-    // TODO Fix up locals and line numbers.
     private void visitLocals(MethodVisitor mv) {
         for (Object l: methodFlow.localVariables) {
             ((LocalVariableNode)l).accept(mv);
         }
     }
 
-    /*
+/* TODO Fix up line numbers.
     private void visitLineNumbers(MethodVisitor mv) {
         for (Object l: methodFlow.lineNumbers) {
             ((LineNumberNode)l).accept(mv);
         }
     }
-    */
+*/
 
     private void visitInstructions(MethodVisitor mv) {
         //TODO gen code for pausable JSRs 
@@ -345,7 +344,7 @@ public class MethodWeaver {
         for (int i = 0; i < callWeavers.size(); i++) {
             labels[i + 1] = new Label();
         }
-//        mv.visitTableSwitchInsn(0, callWeavers.size(), startLabel, labels);
+// TODO       mv.visitTableSwitchInsn(0, callWeavers.size(), startLabel, labels);
         mv.visitTableSwitchInsn(0, callWeavers.size(), errLabel, labels);
         
         mv.visitLabel(errLabel);
