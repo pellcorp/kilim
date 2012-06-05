@@ -207,7 +207,12 @@ public class Detector {
                 break;
             }
         } while (lasta >= 0 && lastb >= 0);
-        return toDesc(sca.get(lasta + 1));
+
+        if (lasta + 1 >= sca.size()) {
+            return toDesc(JAVA_LANG_OBJECT);
+        } else {
+            return toDesc(sca.get(lasta + 1));
+        }
     }
 
     final private static ArrayList<String> EMPTY_STRINGS = new ArrayList<String>(0);

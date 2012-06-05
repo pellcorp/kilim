@@ -53,6 +53,10 @@ public class ClassFlow extends ClassNode {
         this.detector = detector;
     }
 
+    public Detector getDetector() {
+        return this.detector;
+    }
+
     @Override
     @SuppressWarnings( { "unchecked" })
     public MethodVisitor visitMethod(

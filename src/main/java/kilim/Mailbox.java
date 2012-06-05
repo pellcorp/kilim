@@ -42,6 +42,8 @@ public class Mailbox<T> implements PauseReason, EventPublisher {
     
     LinkedList<EventSubscriber> srcs = new LinkedList<EventSubscriber>();
 
+    protected Object[] msgs() { return msgs; }
+    
     // DEBUG stuff
     // To do: move into monitorable stat object
     /*

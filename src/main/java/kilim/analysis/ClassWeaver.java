@@ -14,6 +14,7 @@ import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
 import static org.objectweb.asm.Opcodes.ACC_STATIC;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.RETURN;
+import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.V1_1;
 
 import java.io.IOException;
@@ -28,6 +29,7 @@ import kilim.analysis.Detector;
 import org.objectweb.asm.Attribute;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -71,9 +73,22 @@ public class ClassWeaver {
     public void weave() throws KilimException {
         classFlow.analyze(false);
         if (needsWeaving() && classFlow.isPausable()) {
-            ClassWriter cw = new ClassWriter(0);
+            ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             accept(cw);
-            addClassInfo(new ClassInfo(classFlow.getClassName(), cw.toByteArray()));
+
+            ClassWriter cw2 = new ClassWriter(ClassWriter.COMPUTE_FRAMES) {
+                    public String getCommonSuperClass(String c1, String c2) {
+                        try {
+                            String res = classFlow.getDetector().commonSuperType("L"+c1+";", "L"+c2+";");
+                            String out = res.substring(1, res.length()-1);
+                            return out;
+                        } catch (kilim.mirrors.ClassMirrorNotFoundException e) {
+                            throw new RuntimeException("Can't find superclass", e);
+                        }
+                    }
+                };
+            new ClassReader(cw.toByteArray()).accept(cw2, 0);
+            addClassInfo(new ClassInfo(classFlow.getClassName(), cw2.toByteArray()));
         }
     }
     
@@ -210,7 +225,7 @@ public class ClassWeaver {
             return className;
         }
         stateClasses.get().add(className);
-        ClassWriter cw = new ClassWriter(0);
+        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         cw.visit(V1_1, ACC_PUBLIC | ACC_FINAL, className, null, "kilim/State", null);
 
         // Create default constructor
@@ -218,7 +233,7 @@ public class ClassWeaver {
         // super(); // call java/lang/Object.<init>()
         // }
         MethodVisitor mw = cw.visitMethod(ACC_PUBLIC, "<init>", "()V", null, null);
-        mw.visitInsn(ALOAD_0);
+        mw.visitVarInsn(ALOAD, 0);
         mw.visitMethodInsn(INVOKESPECIAL, STATE_CLASS, "<init>", "()V");
         mw.visitInsn(RETURN);
         // this code uses a maximum of one stack element and one local variable
@@ -228,7 +243,21 @@ public class ClassWeaver {
         for (ValInfo vi : valInfoList) {
             cw.visitField(ACC_PUBLIC, vi.fieldName, vi.fieldDesc(), null, null);
         }
-        addClassInfo(new ClassInfo(className, cw.toByteArray()));
+
+        ClassWriter cw2 = new ClassWriter(ClassWriter.COMPUTE_FRAMES) {
+                public String getCommonSuperClass(String c1, String c2) {
+                    try {
+                        String res = classFlow.getDetector().commonSuperType("L"+c1+";", "L"+c2+";");
+                        String out = res.substring(1, res.length()-1);
+                        return out;
+                    } catch (kilim.mirrors.ClassMirrorNotFoundException e) {
+                        throw new RuntimeException("Can't find superclass", e);
+                    }
+                }
+            };
+        new ClassReader(cw.toByteArray()).accept(cw2, 0);
+        addClassInfo(new ClassInfo(className, cw2.toByteArray()));
+
         return className;
     }
 

@@ -20,9 +20,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 /**
@@ -62,20 +64,20 @@ public class Asm {
     static HashMap<String, Integer> modifiers      = new HashMap<String, Integer>();
 
     static {
-        modifiers.put("public", ACC_PUBLIC);
-        modifiers.put("private", ACC_PRIVATE);
-        modifiers.put("protected", ACC_PROTECTED);
-        modifiers.put("static", ACC_STATIC);
-        modifiers.put("final", ACC_FINAL);
-        modifiers.put("super", ACC_SUPER);
-        modifiers.put("synchronized", ACC_SYNCHRONIZED);
-        modifiers.put("volatile", ACC_VOLATILE);
-        modifiers.put("transient", ACC_TRANSIENT);
-        modifiers.put("native", ACC_NATIVE);
-        modifiers.put("interface", ACC_INTERFACE);
-        modifiers.put("abstract", ACC_ABSTRACT);
-        modifiers.put("strict", ACC_STRICT);
-        modifiers.put("enum", ACC_ENUM);
+        modifiers.put("public", Opcodes.ACC_PUBLIC);
+        modifiers.put("private",  Opcodes.ACC_PRIVATE);
+        modifiers.put("protected",  Opcodes.ACC_PROTECTED);
+        modifiers.put("static",  Opcodes.ACC_STATIC);
+        modifiers.put("final",  Opcodes.ACC_FINAL);
+        modifiers.put("super",  Opcodes.ACC_SUPER);
+        modifiers.put("synchronized",  Opcodes.ACC_SYNCHRONIZED);
+        modifiers.put("volatile",  Opcodes.ACC_VOLATILE);
+        modifiers.put("transient",  Opcodes.ACC_TRANSIENT);
+        modifiers.put("native",  Opcodes.ACC_NATIVE);
+        modifiers.put("interface",  Opcodes.ACC_INTERFACE);
+        modifiers.put("abstract",  Opcodes.ACC_ABSTRACT);
+        modifiers.put("strict",  Opcodes.ACC_STRICT);
+        modifiers.put("enum",  Opcodes.ACC_ENUM);
     }
 
     public static void main(String[] args) throws IOException {
@@ -89,7 +91,7 @@ public class Asm {
     public Asm(String afileName) throws IOException {
         fileName = afileName;
         reader = new LineNumberReader(new FileReader(fileName));
-        cv = new ClassWriter(0);
+        cv = new ClassWriter( 0 );
         try {
             parseClass();
         } catch (EOF eof) {
@@ -760,7 +762,12 @@ public class Asm {
         mkdir(dir);
         String fileName = outputDir + '/' + className + ".class";
         FileOutputStream fos = new FileOutputStream(fileName);
-        fos.write(cv.toByteArray());
+
+
+        ClassWriter cw2 = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        new ClassReader(cv.toByteArray()).accept(cw2, 0);
+
+        fos.write(cw2.toByteArray());
         fos.close();
         System.out.println("Wrote: " + fileName);
     }
