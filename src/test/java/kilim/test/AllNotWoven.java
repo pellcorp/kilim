@@ -17,7 +17,7 @@ public class AllNotWoven extends TestSuite {
         ret.addTestSuite(TestValue.class);
         ret.addTestSuite(TestFrame.class);
         ret.addTestSuite(TestBasicBlock.class);
-        ret.addTestSuite(TestJSR.class);
+        //        ret.addTestSuite(TestJSR.class);
         ret.addTestSuite(TestFlow.class);
         ret.addTestSuite(TestExprs.class);
 //        ret.addTestSuite(TestInvalidPausables.class);

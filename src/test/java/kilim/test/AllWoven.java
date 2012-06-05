@@ -15,7 +15,7 @@ public class AllWoven extends TestSuite {
         ret.addTestSuite(TestYield.class);
         ret.addTestSuite(TestInterface.class);
         ret.addTestSuite(TestYieldExceptions.class);
-        ret.addTestSuite(TestYieldJSR.class);
+        //        ret.addTestSuite(TestYieldJSR.class);
         ret.addTestSuite(TestMailbox.class);
         ret.addTestSuite(TestLock.class);
         ret.addTestSuite(TestGenerics.class);
