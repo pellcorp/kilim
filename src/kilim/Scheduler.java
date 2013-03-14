@@ -61,16 +61,32 @@ public class Scheduler {
     }
 
     /**
+     * Assumed will be called from a synchronized block
+     * @param t
+     */
+    protected void put(Task t) {
+        runnableTasks.put(t);
+    }
+    
+    /**
+     * Assumed will be called from a synchronized block
+     */
+    protected Task get() {
+        return runnableTasks.get();
+    }
+    
+    /**
      * Schedule a task to run. It is the task's job to ensure that
      * it is not scheduled when it is runnable.
      */
     public void schedule(Task t) {
         WorkerThread wt = null;
         
-        synchronized(this) {
+        synchronized (this) {
             assert t.running == true :  "Task " + t + " scheduled even though running is false";
-            runnableTasks.put(t);
+            put(t);
         }
+        
         wt = getWaitingThread();
         if (wt != null) {
             synchronized(wt) {
@@ -110,7 +126,7 @@ public class Scheduler {
             synchronized(this) {
                 if (shutdown) throw new ShutdownException();
 
-                t = runnableTasks.get();
+                t = get();
                 if (t == null) {
                   // WorkerThread will add itself to waitingThreads in WorkerThread.getNextTask()
                   break;
