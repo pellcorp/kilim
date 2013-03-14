@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <project name="kilim" default="all">
   <path id="kilim.classpath">
-    <pathelement location="classes/" />
+    <pathelement location="target/classes/" />
     <fileset dir="./libs">
       <include name="**/*.jar"/>
     </fileset>
     <pathelement path="${java.class.path}" />
   </path>
   <path id="kilim.testwovenclasspath">
-    <pathelement location="testclasses/" />
-    <pathelement location="classes/" />
+    <pathelement location="target/test-classes/" />
+    <pathelement location="target/classes/" />
     <fileset dir="./libs">
       <include name="**/*.jar"/>
     </fileset>
@@ -22,13 +22,13 @@
   
   <target name="compile">
     <echo message="Compiling src ===================" />
-    <javac debug="on" srcdir="src" destdir="classes" 
+    <javac debug="on" srcdir="src" destdir="target/classes" 
            classpathref="kilim.classpath"/>
     <echo message="Compiling examples ===================" />
-    <javac debug="on" srcdir="examples" destdir="classes" 
+    <javac debug="on" srcdir="examples" destdir="target/classes" 
            classpathref="kilim.classpath"/>
     <echo message="Compiling benchmarks ===================" />
-    <javac debug="on" srcdir="bench" destdir="classes" 
+    <javac debug="on" srcdir="bench" destdir="target/classes" 
            classpathref="kilim.classpath"/>
   </target>
   
@@ -42,14 +42,14 @@
   <target name="asm" depends="compile">
     <echo message="Assembling test .j files ===================" />
     <java classname="kilim.tools.Asm" classpathref="kilim.classpath" fork="yes">
-      <arg line="-d ./classes" />
+      <arg line="-d ./target/classes" />
       <arg line="${dotjfiles}" />
     </java>
   </target>
   
   <target name="testcompile" depends="asm">
     <echo message="Compiling test ===================" />
-    <javac debug="on" srcdir="test" destdir="classes" 
+    <javac debug="on" srcdir="test" destdir="target/classes" 
            classpathref="kilim.classpath"/>
   </target>
   
@@ -66,8 +66,8 @@
             for the weaver. Also skip tests for this pass-->
       <arg value="ExInvalid|test" /> 
       <arg value="-d" />
-      <arg value="./classes" />
-      <arg line="./classes" />
+      <arg value="./target/classes" />
+      <arg line="./target/classes" />
     </java>
     <echo message="Weaving test classes ==============" />
     <java classname="kilim.tools.Weaver" fork ="yes">
@@ -79,8 +79,8 @@
        <!-- Weave tests separately into testclasses --> 
       <arg value="ExInvalid" /> 
       <arg value="-d" />
-      <arg value="./testclasses" />
-      <arg line="./classes" />
+      <arg value="./target/test-classes" />
+      <arg line="./target/classes" />
     </java>
 
   </target>
@@ -90,10 +90,10 @@
     <delete>
       <fileset defaultexcludes="no" dir="." includes="*~,#*,foo,bar,x,y" />
     </delete>
-    <delete dir="./classes" />
-    <delete dir="./testclasses" />
-    <mkdir dir="./classes" />
-    <mkdir dir="./testclasses" />
+    <delete dir="./target/classes" />
+    <delete dir="./target/test-classes" />
+    <mkdir dir="./target/classes" />
+    <mkdir dir="./target/test-classes" />
   </target>
   
   
@@ -123,8 +123,8 @@
   </target>
 
   <target name="jar" description="generate the distribution">
-    <copy file="License" todir="classes/kilim" />
-    <jar jarfile="kilim.jar" basedir="classes">
+    <copy file="License" todir="target/classes/kilim" />
+    <jar jarfile="kilim.jar" basedir="target/classes">
       <zipgroupfileset dir="libs" includes="*.jar">
 	<exclude name="junit.jar" />
       </zipgroupfileset>
@@ -135,7 +135,7 @@
 	<attribute name="Main-Class" value="kilim.tools.Weaver"/>
       </manifest>	
     </jar>
-    <jar jarfile="kilim-runtime.jar" basedir="classes">
+    <jar jarfile="kilim-runtime.jar" basedir="target/classes">
       <exclude name="kilim/test/**" />
       <exclude name="kilim/examples/**" />
       <exclude name="kilim/bench/**" />

@@ -34,8 +34,7 @@
 	<build>
 		<sourceDirectory>src/</sourceDirectory>
 		<testSourceDirectory>test/</testSourceDirectory>
-		<outputDirectory>classes/</outputDirectory>
-		<testOutputDirectory>testclasses/</testOutputDirectory>
+		<testOutputDirectory>target/classes</testOutputDirectory>
 
 		<plugins>
 			<!--			
@@ -77,29 +76,6 @@
 				<version>1.2.1</version>
 				<executions>
 					<execution>
-						<!-- java -ea kilim.tools.Weaver -d ./classes ./classes -->
-						<id>kilim-weave-main</id>
-						<phase>process-classes</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-							<executable>java</executable>
-							<classpathScope>runtime</classpathScope>
-							<arguments>
-								<argument>-classpath</argument>
-								<classpath />
-								<argument>-ea</argument>
-								<argument>kilim.tools.Weaver</argument>
-								<argument>-d</argument>
-								<argument>${project.build.outputDirectory}</argument>
-								<argument>${project.build.outputDirectory}</argument>
-							</arguments>
-						</configuration>
-					</execution>
-
-					<execution>
-						<!-- java -ea kilim.tools.Asm -d ./testclasses `find . -name "*.j"` -->
 						<id>kilim-asm</id>
 						<phase>compile</phase>
 						<goals>
@@ -113,7 +89,7 @@
 								<argument>-ea</argument>
 								<argument>kilim.tools.Asm</argument>
 								<argument>-d</argument>
-								<argument>${project.build.testOutputDirectory}</argument>
+								<argument>${project.build.outputDirectory}</argument>
 								<argument>${project.build.testSourceDirectory}/kilim/test/ex/ExJSR.j</argument>
 								<argument>${project.build.testSourceDirectory}/kilim/test/ex/ExYieldSub.j</argument>
 							</arguments>
@@ -121,9 +97,7 @@
 					</execution>
 
 					<execution>
-						<!-- java -ea kilim.tools.Weaver -d ./testclasses -x "ExInvalid|test" 
-							./testclasses -->
-						<id>kilim-weave-test</id>
+						<id>kilim-weave-main</id>
 						<phase>process-test-classes</phase>
 						<goals>
 							<goal>exec</goal>
@@ -137,10 +111,10 @@
 								<argument>-ea</argument>
 								<argument>kilim.tools.Weaver</argument>
 								<argument>-d</argument>
-								<argument>${project.build.testOutputDirectory}</argument>
+								<argument>${project.build.outputDirectory}</argument>
 								<argument>-x</argument>
 								<argument>ExInvalid</argument>
-								<argument>${project.build.testOutputDirectory}</argument>
+								<argument>${project.build.outputDirectory}</argument>
 							</arguments>
 						</configuration>
 					</execution>
@@ -153,15 +127,9 @@
 				<version>2.7.1</version>
 
 				<configuration>
-					<classesDirectory>${project.build.OutputDirectory}</classesDirectory>
-					<testClassesDirectory>${project.build.testOutputDirectory}</testClassesDirectory>
-
 					<systemPropertyVariables>
 						<kilim.Scheduler.numThreads>10</kilim.Scheduler.numThreads>
 					</systemPropertyVariables>
-					<includes>
-						<include>kilim/test/AllWoven.java</include>
-					</includes>
 				</configuration>
 
 				<executions>
@@ -202,7 +170,31 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
+
+			<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.2</version>
+
+					<executions>
+						<execution>
+							<id>make-runtime</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+
+							<configuration>
+								<descriptors>
+									<descriptor>${basedir}/runtime.xml</descriptor>
+								</descriptors>
+
+								<appendAssemblyId>false</appendAssemblyId>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
 	</build>
 
 	<distributionManagement>
