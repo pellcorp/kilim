@@ -10,7 +10,6 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<jdk.version>1.6</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- FIXME fix up the dirs below so they are relative -->
@@ -61,12 +60,12 @@
 			-->
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.0</version>
 				<configuration>
-					<debug>true</debug>
-					<source>${jdk.version}</source>
-					<target>${jdk.version}</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 
