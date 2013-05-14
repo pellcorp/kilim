@@ -22,14 +22,17 @@
   
   <target name="compile">
     <echo message="Compiling src ===================" />
-    <javac debug="on" srcdir="src" destdir="target/classes" 
-           classpathref="kilim.classpath"/>
+    <javac debug="on" srcdir="src" destdir="classes" 
+           classpathref="kilim.classpath" source="1.7"
+	   target="1.7" includeantruntime="false" />
     <echo message="Compiling examples ===================" />
-    <javac debug="on" srcdir="examples" destdir="target/classes" 
-           classpathref="kilim.classpath"/>
+    <javac debug="on" srcdir="examples" destdir="classes" 
+           classpathref="kilim.classpath" source="1.7"
+	   target="1.7" includeantruntime="false" />
     <echo message="Compiling benchmarks ===================" />
-    <javac debug="on" srcdir="bench" destdir="target/classes" 
-           classpathref="kilim.classpath"/>
+    <javac debug="on" srcdir="bench" destdir="classes" 
+           classpathref="kilim.classpath" source="1.7"
+	   target="1.7" includeantruntime="false" />
   </target>
   
   <!-- Glob a list of .j files into a space-separated list -->
@@ -49,8 +52,9 @@
   
   <target name="testcompile" depends="asm">
     <echo message="Compiling test ===================" />
-    <javac debug="on" srcdir="test" destdir="target/classes" 
-           classpathref="kilim.classpath"/>
+    <javac debug="on" srcdir="test" destdir="classes" 
+           classpathref="kilim.classpath" source="1.7"
+	   target="1.7" includeantruntime="false" />
   </target>
   
 

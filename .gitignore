@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 target/**
+=======
+*~
+target/**
+tmp/**
+>>>>>>> 7f6ab0d17df62d7734fc11a4a7bfcfc2035b85a2
 classes-*/**
 testclasses-*/**
 classes/**/*
