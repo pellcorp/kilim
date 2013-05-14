@@ -40,29 +40,6 @@ To run an example:
 java -cp ./classes:$CLASSPATH kilim.examples.Chain 10
 ```
 
-### Dependencies
-
-#### ASM 4.0
-
-This software depends on the ASM bytecode library (v 4.0). 
-
-If you don't have ASM version 4.0 installed in your ~/.m2 directory you'll
-want to install it.  There is a copy in the `libs` directory, to install it
-simply do the following:
-
-```bash
-mvn install:install-file -Dfile=libs/asm-debug-all-4.0.jar -DgroupId=asm -DartifactId=asm-all -Dversion=4.0 -Dpackaging=jar
-```
-
-After which you'll see Maven do some magic resulting in the following:
-
-```bash
-/home/you/.m2/repository/asm/asm-all/4.0/asm-all-4.0.jar
-/home/you/.m2/repository/asm/asm-all/4.0/asm-all-4.0.jar.lastUpdated
-/home/you/.m2/repository/asm/asm-all/4.0/asm-all-4.0.pom
-/home/you/.m2/repository/asm/asm-all/4.0/asm-all-4.0.pom.lastUpdated
-```
-
 #### Java 7 (1.7.x)
 
 This library has been ported to Java 7.  It's now "Write once, run on JDK7 only."
