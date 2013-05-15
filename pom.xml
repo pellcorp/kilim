@@ -12,6 +12,9 @@
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- FIXME fix up the dirs below so they are relative -->
+		<devHome>file:///home/jason/Development</devHome>
 	</properties>
 
 	<dependencies>
@@ -192,6 +195,18 @@
 	<scm>
 		<url>https://github.com/pellcorp/kilim.git</url>
 	</scm>
+
+	<distributionManagement>
+		<repository>
+			<id>repo</id>
+			<url>${devHome}/maven2/releases</url>
+		</repository>
+
+		<snapshotRepository>
+			<id>snapshot-repo</id>
+			<url>${devHome}/maven2/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 </project>
 
 
