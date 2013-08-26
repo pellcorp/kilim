@@ -161,7 +161,12 @@ public class MethodWeaver {
         visitTryCatchBlocks(mv);
         visitInstructions(mv);
         visitLocals(mv);
+        visitLineNumbers(mv);
         mv.visitMaxs(maxStack, maxVars);
+    }
+
+    private void visitLineNumbers(MethodVisitor mv) {
+        methodFlow.visitLineNumbers(mv);
     }
   
     private void visitLocals(MethodVisitor mv) {
@@ -356,7 +361,8 @@ public class MethodWeaver {
         new TableSwitchInsnNode(0, callWeavers.size(), errLabel, labels).accept(mv);
         
         errLabel.accept(mv);
-        mv.visitMethodInsn(INVOKESTATIC, FIBER_CLASS, "wrongPC", "()V");
+        mv.visitVarInsn(ALOAD, getFiberVar());
+        mv.visitMethodInsn(INVOKEVIRTUAL, FIBER_CLASS, "wrongPC", "()V");
         // Generate pass through down code, one for each pausable method
         // invocation
         int last = callWeavers.size() - 1;
