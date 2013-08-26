@@ -6,7 +6,7 @@
 
 	<groupId>kilim</groupId>
 	<artifactId>kilim</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<packaging>pom</packaging>
 
 	<dependencies>
@@ -16,6 +16,13 @@
 			<version>4.1</version>
 		</dependency>
 	</dependencies>
+
+	 <distributionManagement>
+		<repository>
+			<id>repo</id>
+			<url>${maven.repo.dir}/releases</url>
+		</repository>
+	</distributionManagement>
 
 	<build>
 		<plugins>
